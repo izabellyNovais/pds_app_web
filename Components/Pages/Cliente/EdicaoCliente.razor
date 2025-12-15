@@ -1,0 +1,133 @@
+﻿@page "/cliente/{Id:int}/editar"
+@rendermode InteractiveServer
+@using AppWeb.Models;
+@inject ClienteDAO clienteDAO;
+@inject NavigationManager Navigation;
+
+<PageTitle>Cliente</PageTitle>
+
+<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Atualização Cliente - @cliente.Nome</h1>
+
+
+@if (erro != string.Empty)
+
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+        <strong class="font-bold">Erro!</strong>
+        <span class="block sm:inline">@erro</span>
+    </div>
+}
+<EditForm Model="cliente" OnSubmit="Salvar">
+    <div class="mb-4">
+        <label for="Nome" class="block text-sm font-medium text-gray-700">Nome</label>
+        <input @bind-value="cliente.Nome" type="text" id="nome"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+    </div>
+    <div class="mb-4">
+        <label for="DataNascimento" class="block text-sm font-medium text-gray-700">DataNascimento</label>
+        <input @bind-value="cliente.DataNascimento" type="date" id="DataNascimento"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+    </div>
+
+    <div class="mb-4">
+        <label for="Telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+        <input @bind-value="cliente.Telefone" type="number" id="Telefone"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+    </div>
+
+    <div class="mb-4">
+        <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
+        <textarea id="sexo"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Sexo</textarea>
+    </div>
+    <div class="mb-4">
+        <label for="Email" class="block text-sm font-medium text-gray-700">Email</label>
+        <textarea id="Email"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Email</textarea>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoRua" class="block text-sm font-medium text-gray-700">EnderecoRua</label>
+        <camput id="EnderecoRua"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Endereco.Rua</camput>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoNumero" class="block text-sm font-medium text-gray-700">EnderecoNumero</label>
+        <number id="EnderecoNumero"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Endereco.Numero</number>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoBairro" class="block text-sm font-medium text-gray-700">EnderecoBairro</label>
+        <textarea id="EnderecoBairro"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Endereco.Bairro</textarea>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoCEP" class="block text-sm font-medium text-gray-700">EnderecoCEP</label>
+        <number id="EnderecoCEP"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Endereco.CEP</number>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoCidade" class="block text-sm font-medium text-gray-700">EnderecoCidade</label>
+        <textarea id="EnderecoCidade"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Endereco.Cidade</textarea>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoEstado" class="block text-sm font-medium text-gray-700">EnderecoEstado</label>
+        <textarea id="EnderecoEstado"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Endereco.Estado</textarea>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Salvar</button>
+</EditForm>
+
+@code {
+
+  private string erro = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Cliente cliente { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        var _cliente = clienteDAO.BuscarPorId(Id);
+
+        if (_cliente != null)
+        {
+            cliente = _cliente;
+
+        }
+        else
+        {
+            erro = "cliente não encontrado.";
+        }
+    }
+
+    private void Salvar()
+
+    {
+
+        try
+
+        {
+
+            clienteDAO.Atualizar(cliente);
+
+
+
+            Navigation.NavigateTo("/cliente/consulta");
+
+        }
+
+        catch (Exception ex)
+
+        {
+
+            erro = $"Erro ao salvar o cliente: {ex.Message}";
+
+        }
+
+
+
+    }
+}

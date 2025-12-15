@@ -1,0 +1,82 @@
+﻿@page "/cliente/cadastro"
+@rendermode InteractiveServer
+
+@using AppWeb.Models;
+@inject ClienteDAO clienteDAO;
+@inject NavigationManager Navigation;
+
+<PageTitle>Clientes</PageTitle>
+
+<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Novo Cliente</h1>
+
+@if (erro != string.Empty)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+        <strong class="font-bold">Erro!</strong>
+        <span class="block sm:inline">@erro</span>
+    </div>
+}
+
+
+<EditForm Model="novoCliente" OnSubmit="Salvar">
+    <div class="mb-4">
+        <label for="Nome" class="block text-sm font-medium text-gray-700">Nome</label>
+        <input @bind-value="novoCliente.Nome" type="text" id="nome"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+    </div>
+    <div class="mb-4">
+        <label for="DataNascimento" class="block text-sm font-medium text-gray-700">DataNascimento</label>
+        <input @bind-value="novoCliente.DataNascimento" type="date" id="DataNascimento"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+    </div>
+
+    <div class="mb-4">
+        <label for="Telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
+        <input @bind-value="novoCliente.Telefone" type="number" id="Telefone"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+    </div>
+
+    <div class="mb-4">
+        <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
+        <camput id="sexo"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@novoCliente.Sexo</camput>
+    </div>
+    <div class="mb-4">
+        <label for="Email" class="block text-sm font-medium text-gray-700">Email</label>
+        <camput id="Email"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@novoCliente.Email</camput>
+    </div>
+    <div class="mb-4">
+        <label for="EnderecoRua" class="block text-sm font-medium text-gray-700">EnderecoRua</label>
+        <camput id="EnderecoRua"
+                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@novoCliente.Endereco.Rua</camput>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Salvar</button>
+</EditForm>
+
+@code {
+
+    private string erro = string.Empty;
+
+    [SupplyParameterFromForm]
+    private Cliente novoCliente { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+    }
+
+    private void Salvar()
+    {
+        try
+        {
+            clienteDAO.Inserir(novoCliente);
+
+            Navigation.NavigateTo("/cliente/consulta");
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao salvar o cliente: {ex.Message}";
+        }
+
+    }
+}

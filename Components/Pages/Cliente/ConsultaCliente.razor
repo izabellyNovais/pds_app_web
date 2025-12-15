@@ -1,0 +1,80 @@
+﻿@page "/cliente/consulta"
+
+@using AppWeb.Models;
+@inject ClienteDAO clienteDAO;
+
+<PageTitle>Cliente</PageTitle>
+
+<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Clientes</h1>
+
+<a href="/Clientes/novo" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Novo Cliente</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>DataNascimento</th>
+            <th>Sexo</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Endereco.Rua</th>
+            <th>Endereco.Cidade</th>
+            <th>Endereco.Bairro</th>
+            <th>Endereco.Numero</th>
+            <th>Endereco.CEP</th>
+            <th>Endereco.Estado</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int contador = 1;
+
+            @foreach (var cliente in listaClientes)
+            {
+                <tr>
+                    <td>@cliente.Id</td>
+                    <td>@cliente.Nome</td>
+                    <td>@cliente.DataNascimento</td>
+                    <td>@cliente.Sexo</td>
+                    <td>@cliente.Telefone</td>
+                    <td>@cliente.Email</td>
+                    <td>@cliente.Endereco.Numero</td>
+                    <td>@cliente.Endereco.Rua</td>
+                    <td>@cliente.Endereco.Bairro</td>
+                    <td>@cliente.Endereco.Estado</td>
+                    <td>@cliente.Endereco.Cidade</td>
+                    <td>@cliente.Endereco.CEP</td>
+                    <td>
+                
+                        <a href="/cliente/@cliente.Id/editar" class="btn btn-sm btn-primary mr-2">
+                            <i class="fas fa-edit"></i> Atualizar
+                        </a>
+                        <a href="/cliente/@cliente.Id/excluir" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+
+                contador++;
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+    private List<Cliente> listaClientes = new();
+
+    protected override void OnInitialized()
+    {
+        CarregarClientes();
+    }
+
+    private void CarregarClientes()
+    {
+        listaClientes = clienteDAO.ListarTodos();
+    }
+}
