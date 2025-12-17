@@ -118,8 +118,8 @@ namespace AppWeb.Models
             {
                 var comando = _conexao.CreateCommand(
                 "UPDATE cliente SET nome = @_nome, data_nascimento = @_datanascimento, " +
-                "sexo = @_sexo, telefone = @_telefone, email = @_email, EnderecoRua = @_EnderecoRua, EnderecoNumero = @_EnderecoNumero," +
-                "EnderecoBairro = @_EnderecoBairro, EnderecoCEP = @_EnderecoCEP, EnderecoCidade = @_EnderecoCidade, EnderecoEstado = @_EnderecoEstado WHERE id_cliente = @_id;");
+                "sexo = @_sexo, telefone = @_telefone, email = @_email, rua =  @_rua, numero = @_numero," +
+                "bairro = @_bairro, cep = @_cep, cidade = @_cidade, estado = @_estado WHERE id_cliente = @_id;");
 
                 comando.Parameters.AddWithValue("@_nome", cliente.Nome);
                 comando.Parameters.AddWithValue("@_datanascimento", cliente.DataNascimento);
@@ -127,12 +127,12 @@ namespace AppWeb.Models
                 comando.Parameters.AddWithValue("@_telefone", cliente.Telefone);
                 comando.Parameters.AddWithValue("@_email", cliente.Email);
                 comando.Parameters.AddWithValue("@_id", cliente.Id);
-                comando.Parameters.AddWithValue("@_EnderecoRua", cliente.Endereco.Rua);
-                comando.Parameters.AddWithValue("@_EnderecoNumero", cliente.Endereco.Numero);
-                comando.Parameters.AddWithValue("@_EnderecoBairro", cliente.Endereco.Bairro);
-                comando.Parameters.AddWithValue("@_EnderecoCEP", cliente.Endereco.CEP);
-                comando.Parameters.AddWithValue("@_EnderecoCidade", cliente.Endereco.Cidade);
-                comando.Parameters.AddWithValue("@_EnderecoEstado", cliente.Endereco.Estado);
+                comando.Parameters.AddWithValue("@_rua", cliente.Endereco.Rua);
+                comando.Parameters.AddWithValue("@_numero", cliente.Endereco.Numero);
+                comando.Parameters.AddWithValue("@_bairro", cliente.Endereco.Bairro);
+                comando.Parameters.AddWithValue("@_cep", cliente.Endereco.CEP);
+                comando.Parameters.AddWithValue("@_cidade", cliente.Endereco.Cidade);
+                comando.Parameters.AddWithValue("@_estado", cliente.Endereco.Estado);
                        
         comando.ExecuteNonQuery();
             }

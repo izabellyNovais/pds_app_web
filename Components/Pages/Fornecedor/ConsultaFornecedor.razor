@@ -1,5 +1,4 @@
 ﻿@page "/fornecedor/consulta"
-
 @using AppWeb.Models;
 @inject FornecedorDAO fornecedorDAO;
 
@@ -8,6 +7,7 @@
 <h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Fornecedor</h1>
 
 <a href="/Fornecedor/novo" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">Novo Fornecedor</a>
+
 
 <table class="table">
     <thead>
@@ -36,25 +36,26 @@
             @foreach (var fornecedor in listaFornecedor)
             {
                 <tr>
-                <td>@fornecedor.Id</td>
-                <td>@fornecedor.NomeFantasia</td>
-                <td>@fornecedor.CNPJ</td>
-                <td>@fornecedor.NomeContato</td>
-                <td>@fornecedor.Telefone</td>
-                <td>@fornecedor.Email</td>
-                <td>@fornecedor.Website</td>
-                <td>@fornecedor.Endereco.Numero</td>
-                <td>@fornecedor.Endereco.Rua</td>
-                <td>@fornecedor.Endereco.Bairro</td>
-                <td>@fornecedor.Endereco.Estado</td>
-                <td>@fornecedor.Endereco.Cidade</td>
-                <td>@fornecedor.Endereco.CEP</td>
+                
+                    <td>@fornecedor.Id</td>
+                    <td>@fornecedor.NomeFantasia</td>
+                    <td>@fornecedor.CNPJ</td>
+                    <td>@fornecedor.NomeContato</td>
+                    <td>@fornecedor.Telefone</td>
+                    <td>@fornecedor.Email</td>
+                    <td>@fornecedor.Website</td>
+                    <td>@fornecedor.Endereco.Numero</td>
+                    <td>@fornecedor.Endereco.Rua</td>
+                    <td>@fornecedor.Endereco.Bairro</td>
+                    <td>@fornecedor.Endereco.Estado</td>
+                    <td>@fornecedor.Endereco.Cidade</td>
+                    <td>@fornecedor.Endereco.CEP</td>
                     <td>
 
-                    <a href="/fornecedor/@fornecedor.Id/editar" class="btn btn-sm btn-primary mr-2">
+                        <a href="/cliente/@fornecedor.Id/editar" class="btn btn-sm btn-primary mr-2">
                             <i class="fas fa-edit"></i> Atualizar
                         </a>
-                    <a href="/fornecedor/@fornecedor.Id/excluir" class="btn btn-sm btn-danger">
+                        <a href="/cliente/@fornecedor.Id/excluir" class="btn btn-sm btn-danger">
                             <i class="fas fa-trash"></i> Excluir
                         </a>
                     </td>
@@ -65,6 +66,7 @@
         }
     </tbody>
 </table>
+
 
 @code {
     private List<Fornecedor> listaFornecedor = new();
@@ -79,3 +81,4 @@
         listaFornecedor = fornecedorDAO.ListarTodos();
     }
 }
+

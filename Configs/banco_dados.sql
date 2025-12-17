@@ -1,11 +1,25 @@
 
-.CREATE TABLE
+CREATE TABLE
   fornecedor (
     id_for INT NOT NULL AUTO_INCREMENT,
-    nome_for VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id_for)
-  );
+    nome_fantasia_for VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id_for),
+    razao_social VARCHAR(100),
+    nome_contato VARCHAR (50),
+    cnpj VARCHAR (30),
+    telefone VARCHAR (20),
+    email VARCHAR(100) UNIQUE,
+    website VARCHAR (50),
 
+    rua VARCHAR(255),
+    numero INT,
+    bairro VARCHAR(100),
+    cep VARCHAR(10),
+    cidade VARCHAR(100),
+    estado VARCHAR(2) 
+  );
+  
+  
 CREATE TABLE
   produto (
     id_pro INT NOT NULL AUTO_INCREMENT,
@@ -79,12 +93,11 @@ VALUES
 
 -- Inserindo fornecedores
 INSERT INTO
-  fornecedor (nome_for)
-VALUES
-  ('Fornecedor Alpha'),
-  ('Fornecedor Beta'),
-  ('Fornecedor Gamma'),
-  ('Fornecedor Delta');
+  fornecedor (nome_fantasia_for, razao_social, nome_contato, cnpj, telefone, email, website,  rua, numero, bairro, cep, cidade, estado)
+VALUES 
+  ('Fornecedor Alpha', ' infotech', 'marcos', '9237489237-94', '(67)80345709', 'infotech123@gmail.com','www.infotech.com.br','Avenida brasil', '1223', 'Brasilia' , '12132-343', 'Ji-Paraná', 'Rondônia'),
+  ('Fornecedor Beta', 'smartinfo', 'Luiz', '4637256323-66', '(81) 73282376', 'smartinfo23@gmail.com', 'www.smartinfo.com.br','bandeirante', '2425', 'JK', '35356-232','Ji-Paraná', 'Rondônia'),
+
 
 -- Inserindo produtos vinculados aos fornecedores
 INSERT INTO

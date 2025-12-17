@@ -1,0 +1,83 @@
+﻿@page "/fornecedor/{Id:int}/excluir"
+@rendermode InteractiveServer
+
+@using AppWeb.Models;
+@inject FornecedorDAO fornecedorDAO;
+@inject NavigationManager Navigation;
+
+<PageTitle>fornecedor</PageTitle>
+
+<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Exclusão de Fornecedor</h1>
+
+@if (erro != string.Empty)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+        <strong class="font-bold">Erro!</strong>
+        <span class="block sm:inline">@erro</span>
+    </div>
+}
+
+<EditForm Model="fornecedor" OnSubmit="Excluir">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+        <strong class="font-bold">Atenção!</strong>
+        <span class="block sm:inline">Esta ação não pode ser desfeita.</span>
+
+
+        <p class="text-lg">Tem certeza que deseja excluir o fornecedor <strong>@fornecedor.NomeFantasia</strong>?</p>
+    </div>
+
+
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded mt-2">Excluir</button>
+    <a href="/fornecedor" class="bg-gray-500 text-white px-4 py-2 rounded mt-2">Cancelar</a>
+
+</EditForm>
+@code {
+
+
+
+    private string erro = string.Empty;
+
+    [Parameter]
+
+    public int Id { get; set; }
+    [SupplyParameterFromForm]
+    private Fornecedor fornecedor { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+
+        var _fornecedor = fornecedorDAO.BuscarPorId(Id);
+
+        if (_fornecedor != null)
+        {
+
+            fornecedor = _fornecedor;
+
+        }
+        else
+        {
+            erro = "Fornecedor não encontrado.";
+
+        }
+
+    }
+
+    private void Excluir()
+    {
+
+        try
+        {
+
+            fornecedorDAO.Excluir(fornecedor.Id);
+            Navigation.NavigateTo("/fornecedor/consulta");
+
+        }
+        catch (Exception ex)
+        {
+
+            erro = $"Erro ao excluir o fornecedor: {ex.Message}";
+
+        }
+
+    }
+}

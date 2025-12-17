@@ -1,14 +1,13 @@
-﻿@page "/fornecedor/cadastro"
+﻿@page "/fornecedor/{Id:int}/editar"
 @rendermode InteractiveServer
-
 @using AppWeb.Models;
 @inject FornecedorDAO fornecedorDAO;
 @inject NavigationManager Navigation;
 
-
 <PageTitle>Fornecedor</PageTitle>
 
-<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Novo Fornecedor</h1>
+<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Atualização Fornecedor - @fornecedor.NomeFantasia</h1>
+
 
 @if (erro != string.Empty)
 {
@@ -17,99 +16,122 @@
         <span class="block sm:inline">@erro</span>
     </div>
 }
-
-
-<EditForm Model="novoFornecedor" OnSubmit="Salvar">
+<EditForm Model="fornecedor" OnSubmit="Salvar">
     <div class="mb-4">
         <label for="NomeFantasia" class="block text-sm font-medium text-gray-700">NomeFantasia</label>
-        <input @bind-value="novoFornecedor.NomeFantasia" type="text" id="nome_fantasia"
+        <input @bind-value="fornecedor.NomeFantasia" type="text" id="nomeFantasia"
                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
     </div>
     <div class="mb-4">
-        <label for="RazaoSocial" class="block text-sm font-medium text-gray-700">RazaoSocial</label>
-        <input @bind-value="novoFornecedor.RazaoSocial" type="text" id="RazaoSocial"
+        <label for="NomeContato" class="block text-sm font-medium text-gray-700">NomeContato</label>
+        <input @bind-value="fornecedor.NomeContato" type="text" id="NomeContato"
                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
     </div>
-
     <div class="mb-4">
         <label for="Telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-        <input @bind-value="novoFornecedor.Telefone" type="number" id="Telefone"
+        <input @bind-value="fornecedor.Telefone" type="number" id="Telefone"
                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
     </div>
     <div class="mb-4">
-        <label for="CNPJ" class="block text-sm font-medium text-gray-700">CNPJ</label>
-        <input @bind-value="novoFornecedor.CNPJ" type="text" id="CNPJ"
+        <label for="CNPJ class="block text-sm font-medium text-gray-700">CNPJ</label>
+        <input @bind-value="fornecedor.CNPJ" type="text" id="CNPJ"
                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
     </div>
     <div class="mb-4">
         <label for="Website" class="block text-sm font-medium text-gray-700">Website</label>
-        <input @bind-value="novoFornecedor.Website" type="text" id="Website"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <camput id="Website"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Website</camput>
     </div>
     <div class="mb-4">
         <label for="Email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input @bind-value="novoFornecedor.Email" type="text" id="Email"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <camput id="Email"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Email</camput>
     </div>
-
     <div class="mb-4">
         <label for="EnderecoRua" class="block text-sm font-medium text-gray-700">EnderecoRua</label>
-        <input @bind-value="novoFornecedor.Endereco.Rua" type="text" id="EnderecoRua"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <camput id="EnderecoRua"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Endereco.Rua</camput>
     </div>
-
-    
     <div class="mb-4">
         <label for="EnderecoNumero" class="block text-sm font-medium text-gray-700">EnderecoNumero</label>
-        <input @bind-value="novoFornecedor.Endereco.Numero" type="text" id="EnderecoNumero"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <number id="EnderecoNumero"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Endereco.Numero</number>
     </div>
     <div class="mb-4">
         <label for="EnderecoBairro" class="block text-sm font-medium text-gray-700">EnderecoBairro</label>
-        <input @bind-value="novoFornecedor.Endereco.Bairro" type="text" id="EnderecoBairro"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <camput id="EnderecoBairro"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Endereco.Bairro</camput>
     </div>
     <div class="mb-4">
         <label for="EnderecoCEP" class="block text-sm font-medium text-gray-700">EnderecoCEP</label>
-        <input @bind-value="novoFornecedor.Endereco.CEP" type="text" id="EnderecoCEP"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <number id="EnderecoCEP"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Endereco.CEP</number>
     </div>
     <div class="mb-4">
         <label for="EnderecoCidade" class="block text-sm font-medium text-gray-700">EnderecoCidade</label>
-        <input @bind-value="novoFornecedor.Endereco.Cidade" type="text" id="EnderecoCidade"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <camput id="EnderecoCidade"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Endereco.Cidade</camput>
     </div>
     <div class="mb-4">
         <label for="EnderecoEstado" class="block text-sm font-medium text-gray-700">EnderecoEstado</label>
-        <input @bind-value="novoFornecedor.Endereco.Estado" type="text" id="EnderecoEstado"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+        <camput id="EnderecoEstado"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@fornecedor.Endereco.Estado</camput>
     </div>
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Salvar</button>
 </EditForm>
 
-
 @code {
-
     private string erro = string.Empty;
 
+    [Parameter]
+
+    public int Id { get; set; }
+
     [SupplyParameterFromForm]
-    private Fornecedor novoFornecedor { get; set; } = new();
+
+    private Fornecedor fornecedor { get; set; } = new();
+
+
 
     protected override void OnInitialized()
+
     {
+
+        var _fornecedor = fornecedorDAO.BuscarPorId(Id);
+
+
+
+        if (_fornecedor != null)
+        {
+            fornecedor = _fornecedor;
+
+        }
+
+        else
+        {
+            erro = "fornecedor não encontrado.";
+        }
+
     }
+
+
 
     private void Salvar()
     {
         try
         {
-            fornecedorDAO.Inserir(novoFornecedor);
+
+
+            fornecedorDAO.Atualizar(fornecedor);
 
             Navigation.NavigateTo("/fornecedor/consulta");
+
+
         }
         catch (Exception ex)
         {
             erro = $"Erro ao salvar o fornecedor: {ex.Message}";
+
         }
 
     }
